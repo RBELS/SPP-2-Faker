@@ -11,7 +11,6 @@ public class Faker
 
     public Faker()
     {
-        this._context = new GeneratorContext();
         this._generators = new Dictionary<Type, IValueGenerator>();
         
         var targetNamespace = "Faker.Generators";
@@ -28,14 +27,10 @@ public class Faker
             _generators.Add(generator.GetTargetType(), generator);
         }
     }
-
-    public void ClearContext()
-    {
-        this._context = new GeneratorContext();
-    }
     
     public T Create<T>()
     {
+        this._context = new GeneratorContext();
         return (T) Create(typeof(T));
     }
     
@@ -100,13 +95,14 @@ public class Faker
     private void FillPropertiesAndFields(object instance)
     {
         var type = instance.GetType();
-
-        foreach (var field in type.GetFields())
+        
+        foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
         {
-            if ((field.FieldType == type || field.FieldType.IsAssignableFrom(type))) //???
-            {
-                field.SetValue(instance, Create(field.FieldType));
-            }
+            field.SetValue(instance, Create(field.FieldType));
+            // if ((field.FieldType == type || field.FieldType.IsAssignableFrom(type))) //???
+            // {
+            //     field.SetValue(instance, Create(field.FieldType));
+            // }
         }
 
         foreach (var property in type.GetProperties())
