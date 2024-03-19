@@ -9,6 +9,6 @@ class Program
         var faker = new Faker();
         var person = faker.Create<Person>();
         var book = faker.Create<Book>();
-        Console.WriteLine("Done");
+        Console.WriteLine("Book Generated");
     }
 }

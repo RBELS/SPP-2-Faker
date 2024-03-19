@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\AdditionalGenerators\AdditionalGenerators.csproj" />
       <ProjectReference Include="..\..\Faker\Faker.csproj" />
     </ItemGroup>
 
